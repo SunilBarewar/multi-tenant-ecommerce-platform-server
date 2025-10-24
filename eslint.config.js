@@ -123,6 +123,7 @@ export default defineConfig(
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/require-await": "off",
 
       // ==================== NO RELATIVE IMPORT PATHS ====================
       "no-relative-import-paths/no-relative-import-paths": [
@@ -182,6 +183,7 @@ export default defineConfig(
       "perfectionist/sort-interfaces": "off",
       "perfectionist/sort-objects": "off",
       "perfectionist/sort-object-types": "off",
+      "perfectionist/sort-classes": "off",
 
       // ==================== GENERAL CODE QUALITY ====================
       "no-console": "warn", // Console is commonly used in backend

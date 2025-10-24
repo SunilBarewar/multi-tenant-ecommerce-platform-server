@@ -24,7 +24,7 @@ type PaginatedResponseParams<T> = {
 type SuccessResponseParams<T> = {
   message: string;
   data?: T;
-  statusCode: number;
+  statusCode?: number;
 };
 
 export class ResponseFormatter {
