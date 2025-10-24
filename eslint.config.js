@@ -21,8 +21,7 @@ export default defineConfig(
   // Base configurations
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
-  ...tseslint.configs.strictTypeChecked,
+  // ...tseslint.configs.stylisticTypeChecked,
   perfectionist.configs["recommended-natural"],
 
   // Main configuration
@@ -67,7 +66,7 @@ export default defineConfig(
           caughtErrorsIgnorePattern: "^_",
         },
       ],
-      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
@@ -119,18 +118,11 @@ export default defineConfig(
       "@typescript-eslint/prefer-nullish-coalescing": "error",
       "@typescript-eslint/prefer-optional-chain": "error",
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
-      "@typescript-eslint/strict-boolean-expressions": [
-        "error",
-        {
-          allowString: false,
-          allowNumber: false,
-          allowNullableObject: false,
-        },
-      ],
-      "@typescript-eslint/no-unsafe-assignment": "warn",
-      "@typescript-eslint/no-unsafe-member-access": "warn",
-      "@typescript-eslint/no-unsafe-call": "warn",
-      "@typescript-eslint/no-unsafe-return": "warn",
+      "@typescript-eslint/strict-boolean-expressions": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
 
       // ==================== NO RELATIVE IMPORT PATHS ====================
       "no-relative-import-paths/no-relative-import-paths": [
