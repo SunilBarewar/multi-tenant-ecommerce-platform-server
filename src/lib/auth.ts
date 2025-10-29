@@ -1,4 +1,4 @@
-import { PrismaClient } from "#/generated/prisma";
+import { PrismaClient } from "@/generated/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 

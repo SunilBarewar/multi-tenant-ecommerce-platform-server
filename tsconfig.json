@@ -12,7 +12,7 @@
     "moduleResolution": "bundler",
     // For nodejs:
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "express"],
     // and npm install -D @types/node
 
     // Other Outputs
@@ -40,7 +40,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./src/shared/types"],
+    "typeRoots": ["./node_modules/@types", "./src/shared/types/express.d.ts"],
+
     // Paths
 
     "paths": {
@@ -48,6 +49,6 @@
       "#/*": ["./*"]
     }
   },
-  "include": ["src/**/*.ts", "src/shared/types/express.d.ts", "src/***/*.d.ts"],
+  "include": ["src/**/*.ts", "src/shared/types/express.d.ts", "src/**/*.d.ts"],
   "exclude": ["dist/**/*", "node_modules/**/*"]
 }
