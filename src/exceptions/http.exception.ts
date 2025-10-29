@@ -1,5 +1,4 @@
-import { ERROR_CODES } from "@/shared/constants/error-codes.const";
-import { HTTP_STATUS } from "@/shared/constants/http-status.const";
+import { ERROR_CODES, HTTP_STATUS } from "@/shared/constants";
 
 import { BaseException } from "./base.exception";
 

@@ -1,13 +1,11 @@
-import { type NextFunction, type Request, type Response } from "express";
+// import type { WeakRequestHandler } from "express-zod-safe";
+
+import type { UnvalidatedRequestHandler } from "@/shared/types";
 
 import { UnauthorizedException } from "@/exceptions";
 import { JwtHelper } from "@/utils/helpers/jwt.helper";
 
-export function authMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export const authMiddleware: UnvalidatedRequestHandler = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -17,6 +15,7 @@ export function authMiddleware(
 
     const token = authHeader.substring(7);
     const payload = JwtHelper.verifyAccessToken(token);
+    const { role } = req.query;
 
     req.user = {
       id: payload.userId,
@@ -28,4 +27,4 @@ export function authMiddleware(
   } catch (error) {
     next(error);
   }
-}
+};

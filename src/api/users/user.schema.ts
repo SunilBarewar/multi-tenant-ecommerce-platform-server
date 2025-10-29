@@ -26,11 +26,11 @@ export const UserIdSchema = z.object({
 });
 
 export const UserQuerySchema = z.object({
-  page: z.coerce.number().min(1).default(1),
-  limit: z.coerce.number().min(1).max(100).default(10),
+  page: z.number().min(1).default(1),
+  limit: z.number().min(1).max(100).default(10),
   search: z.string().optional(),
   role: z.enum(USER_ROLES).optional(),
-  isActive: z.coerce.boolean().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const CreateUserValidation = {
