@@ -129,7 +129,7 @@ export default defineConfig(
       "no-relative-import-paths/no-relative-import-paths": [
         "error",
         {
-          allowSameFolder: true,
+          allowSameFolder: false,
           rootDir: "src",
           prefix: "@",
         },

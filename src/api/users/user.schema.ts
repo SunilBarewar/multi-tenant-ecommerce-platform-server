@@ -4,21 +4,18 @@ import { USER_ROLES } from "@/shared/enums/user-roles.enum";
 
 export const CreateUserBodySchema = z.object({
   email: z.email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number"),
+  // password: z
+  //   .string()
+  //   .min(8, "Password must be at least 8 characters")
+  //   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+  //   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+  //   .regex(/[0-9]/, "Password must contain at least one number"),
   name: z.string().min(2, "Name must be at least 2 characters"),
-  role: z.enum(USER_ROLES).optional(),
 });
 
 export const UpdateUserSchema = z.object({
   email: z.email("Invalid email address").optional(),
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
-  role: z.enum(USER_ROLES).optional(),
-  isActive: z.boolean().optional(),
 });
 
 export const UserIdSchema = z.object({
@@ -33,25 +30,25 @@ export const UserQuerySchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-export const CreateUserValidation = {
+export const CreateUserValidationSchemas = {
   body: CreateUserBodySchema,
 } as const;
 
-export const DeleteUserValidation = {
+export const DeleteUserValidationSchemas = {
   params: z.object({
     id: z.cuid("Invalid user ID"),
   }),
 } as const;
 
-export const GetAllUsersValidation = {
+export const GetAllUsersValidationSchemas = {
   query: UserQuerySchema,
 } as const;
 
-export const GetUserByValidation = {
+export const GetUserByValidationSchemas = {
   params: UserIdSchema,
 } as const;
 
-export const UpdateUserValidation = {
+export const UpdateUserValidationSchemas = {
   params: UserIdSchema,
   body: UpdateUserSchema,
 } as const;

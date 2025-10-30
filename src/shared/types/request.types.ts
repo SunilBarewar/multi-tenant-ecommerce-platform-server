@@ -1,12 +1,5 @@
-// types/request-typed.ts
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 import type { z } from "zod";
-
-/**
- * Inferred authenticated request: same as InferredRequest but with non-nullable user
- */
-export type InferredAuthenticatedRequest<S extends ValidationSchemas> =
-  InferredRequest<S> & { user: NonNullable<Request["user"]> };
 
 /**
  * Inferred (typed) Request that matches the validate() middleware generics:
@@ -23,15 +16,6 @@ export type InferredRequest<S extends ValidationSchemas> = Request<
   InferFromSchema<S, "body">,
   InferFromSchema<S, "query">
 >;
-
-/**
- * Controller type for authenticated routes (req.user guaranteed non-null)
- */
-export type TypedAuthenticatedController<S extends ValidationSchemas> = (
-  req: InferredAuthenticatedRequest<S>,
-  res: Response<InferFromSchema<S, "res">>,
-  next: NextFunction,
-) => any;
 
 /**
  * Controller type for non-authenticated routes.

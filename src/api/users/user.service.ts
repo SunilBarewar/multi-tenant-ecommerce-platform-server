@@ -1,14 +1,12 @@
-import { ConflictException, NotFoundException } from "@/exceptions";
-import { ERROR_MESSAGES } from "@/shared/constants";
-import { PasswordHelper } from "@/utils/helpers/password.helper";
-
-import { UserRepository } from "./user.repository";
+import { UserRepository } from "@/api/users/user.repository";
 import {
   type CreateUserDTO,
   type UpdateUserDTO,
   type UserQueryParams,
   type UserWithoutPassword,
-} from "./user.types";
+} from "@/api/users/user.types";
+import { ConflictException, NotFoundException } from "@/exceptions";
+import { ERROR_MESSAGES } from "@/shared/constants";
 
 export class UserService {
   private userRepository: UserRepository;
@@ -26,12 +24,12 @@ export class UserService {
     }
 
     // Hash password
-    const hashedPassword = await PasswordHelper.hash(data.password);
+    // const hashedPassword = await PasswordHelper.hash(data.password);
 
     // Create user
     return this.userRepository.create({
       ...data,
-      password: hashedPassword,
+      // password: hashedPassword,
     });
   }
 
