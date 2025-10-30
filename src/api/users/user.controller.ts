@@ -1,21 +1,21 @@
+import type {
+  CreateUserValidationSchemas,
+  DeleteUserValidationSchemas,
+  GetAllUsersValidationSchemas,
+  GetUserByValidationSchemas,
+  UpdateUserValidationSchemas,
+} from "@/api/users/user.schema";
+import type { UserService } from "@/api/users/user.service";
 import type { TypedController } from "@/shared/types/request.types";
 
 import { HTTP_STATUS, SUCCESS_MESSAGES } from "@/shared/constants";
 import { ResponseFormatter } from "@/utils/formatters/response.formatter";
-
-import {
-  type CreateUserValidation,
-  type DeleteUserValidation,
-  type GetAllUsersValidation,
-  type GetUserByValidation,
-  type UpdateUserValidation,
-} from "./user.schema";
-import { type UserService } from "./user.service";
+import { assertUser } from "@/utils/helpers/assert-user.helper";
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  createUser: TypedController<typeof CreateUserValidation> = async (
+  createUser: TypedController<typeof CreateUserValidationSchemas> = async (
     req,
     res,
     next,
@@ -33,7 +33,7 @@ export class UserController {
     }
   };
 
-  deleteUser: TypedController<typeof DeleteUserValidation> = async (
+  deleteUser: TypedController<typeof DeleteUserValidationSchemas> = async (
     req,
     res,
     next,
@@ -51,7 +51,7 @@ export class UserController {
     }
   };
 
-  getAllUsers: TypedController<typeof GetAllUsersValidation> = async (
+  getAllUsers: TypedController<typeof GetAllUsersValidationSchemas> = async (
     req,
     res,
     next,
@@ -72,7 +72,7 @@ export class UserController {
     }
   };
 
-  getUserById: TypedController<typeof GetUserByValidation> = async (
+  getUserById: TypedController<typeof GetUserByValidationSchemas> = async (
     req,
     res,
     next,
@@ -89,7 +89,7 @@ export class UserController {
     }
   };
 
-  updateUser: TypedController<typeof UpdateUserValidation> = async (
+  updateUser: TypedController<typeof UpdateUserValidationSchemas> = async (
     req,
     res,
     next,
@@ -106,11 +106,13 @@ export class UserController {
     }
   };
 
-  getProfile: TypedController<typeof GetUserByValidation> = async (
+  getProfile: TypedController<typeof GetUserByValidationSchemas> = async (
     req,
     res,
     next,
   ) => {
+    assertUser(req);
+
     try {
       const user = await this.userService.getUserById(req.user.id);
 

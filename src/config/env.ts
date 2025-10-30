@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
 import { z } from "zod";
 
+import { ENV } from "@/shared/enums";
+
 dotenv.config();
 
 const envSchema = z.object({
-  NODE_ENV: z
-    .enum(["development", "production", "staging"])
-    .default("development"),
+  NODE_ENV: z.enum(ENV).default(ENV.DEVELOPMENT),
   PORT: z.coerce.number().default(3000),
 
   // Database

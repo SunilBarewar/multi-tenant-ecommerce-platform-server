@@ -1,67 +1,58 @@
 import { Router } from "express";
-// import validate from "express-zod-safe";
-import z from "zod";
 import { validate } from "zod-express-validator";
 
-// import { validate } from "@/middleware";
-import { authMiddleware } from "@/middleware/auth.middleware";
-
-import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
-
-const bodySchema = z.object({
-  name: z.string().min(3).max(255),
-});
-
-const paramsSchema = z.object({
-  userId: z.coerce.number(),
-});
-
-const querySchema = z.object({
-  page: z.coerce.number().min(1).max(100),
-});
-
-// const responseSchema = z.object({
-//   success: z.boolean(),
-// });
-
-// const authenticate: WeakRequestHandler = (req, res, next) => {
-//   // ... perform user authentication
-//   req.user = { id: "1", email: "1", role: "1" }; // Example user
-//   req.user = { id: "1", email: "1", role: "1" }; // Example user
-//   next();
-// };
+import { UserController } from "@/api/users/user.controller";
+import {
+  CreateUserValidationSchemas,
+  DeleteUserValidationSchemas,
+  GetAllUsersValidationSchemas,
+  GetUserByValidationSchemas,
+  UpdateUserValidationSchemas,
+} from "@/api/users/user.schema";
+import { UserService } from "@/api/users/user.service";
+import { authMiddleware } from "@/middleware";
 
 export function createUserRoutes(): Router {
   const router = Router();
   const userService = new UserService();
   const controller = new UserController(userService);
 
-  // Public routes
   router.post(
     "/",
-
-    validate({
-      body: bodySchema,
-      params: paramsSchema,
-      query: querySchema,
-    }),
+    authMiddleware,
+    validate(CreateUserValidationSchemas),
     controller.createUser,
   );
 
-  // Protected routes
-  router.post("/profile", authMiddleware, validate({ query: querySchema }));
+  router.post("/profile", authMiddleware, controller.getProfile);
 
   router.get(
     "/",
     authMiddleware,
-    validate({ query: querySchema }),
+    validate(GetAllUsersValidationSchemas),
     controller.getAllUsers,
   );
 
-  router.get("/:id", authMiddleware, controller.getUserById);
-  router.patch("/:id", authMiddleware, controller.updateUser);
-  router.delete("/:id", authMiddleware, controller.deleteUser);
+  router.get(
+    "/:id",
+    authMiddleware,
+    validate(GetUserByValidationSchemas),
+    controller.getUserById,
+  );
+
+  router.patch(
+    "/:id",
+    authMiddleware,
+    validate(UpdateUserValidationSchemas),
+    controller.updateUser,
+  );
+
+  router.delete(
+    "/:id",
+    authMiddleware,
+    validate(DeleteUserValidationSchemas),
+    controller.deleteUser,
+  );
 
   return router;
 }

@@ -1,5 +1,4 @@
 import { type PrismaClient } from "@/generated/prisma";
-
 import prisma from "@/lib/prisma-client";
 
 export abstract class BaseRepository<T> {

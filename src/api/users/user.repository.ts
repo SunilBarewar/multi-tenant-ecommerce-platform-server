@@ -1,11 +1,11 @@
-import { BaseRepository } from "@/utils/db/base.repository";
-
 import type {
   CreateUserDTO,
   UpdateUserDTO,
   User,
   UserQueryParams,
-} from "./user.types";
+} from "@/api/users/user.types";
+
+import { BaseRepository } from "@/utils/db/base.repository";
 
 export class UserRepository extends BaseRepository<User> {
   async findById(id: string): Promise<null | User> {
@@ -22,7 +22,7 @@ export class UserRepository extends BaseRepository<User> {
 
   async create(data: CreateUserDTO): Promise<User> {
     return this.prisma.user.create({
-      data,
+      data: { ...data, id: "" },
     });
   }
 
