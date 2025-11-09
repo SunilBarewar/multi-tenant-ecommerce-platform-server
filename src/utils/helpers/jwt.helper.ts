@@ -1,7 +1,7 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
 
 import { env } from "@/config/env";
-import { InvalidTokenException, TokenExpiredException } from "@/exceptions";
+import { InvalidTokenError, TokenExpiredError } from "@/errors";
 
 export interface JwtPayload {
   userId: string;
@@ -36,9 +36,9 @@ export class JwtHelper {
       return jwt.verify(token, env.JWT_SECRET) as JwtPayload;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
-        throw new TokenExpiredException();
+        throw new TokenExpiredError();
       }
-      throw new InvalidTokenException();
+      throw new InvalidTokenError();
     }
   }
 
@@ -47,9 +47,9 @@ export class JwtHelper {
       return jwt.verify(token, env.JWT_REFRESH_SECRET) as JwtPayload;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
-        throw new TokenExpiredException();
+        throw new TokenExpiredError();
       }
-      throw new InvalidTokenException();
+      throw new InvalidTokenError();
     }
   }
 }

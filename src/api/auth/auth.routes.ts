@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { AuthController } from "./auth.controller";
 
 export function createAuthRoutes(): Router {

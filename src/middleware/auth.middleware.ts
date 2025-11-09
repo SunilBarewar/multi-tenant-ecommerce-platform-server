@@ -1,6 +1,6 @@
 import type { UnvalidatedRequestHandler } from "@/shared/types";
 
-import { UnauthorizedException } from "@/exceptions";
+import { UnauthorizedException } from "@/errors";
 import { JwtHelper } from "@/utils/helpers/jwt.helper";
 
 export const authMiddleware: UnvalidatedRequestHandler = (req, _res, next) => {

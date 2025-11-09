@@ -5,7 +5,7 @@ import {
   type UserQueryParams,
   type UserWithoutPassword,
 } from "@/api/users/user.types";
-import { ConflictException, NotFoundException } from "@/exceptions";
+import { ConflictError, NotFoundException } from "@/errors";
 import { ERROR_MESSAGES } from "@/shared/constants";
 
 export class UserService {
@@ -20,7 +20,7 @@ export class UserService {
     const existingUser = await this.userRepository.findByEmail(data.email);
 
     if (existingUser) {
-      throw new ConflictException(ERROR_MESSAGES.USER_ALREADY_EXISTS);
+      throw new ConflictError(ERROR_MESSAGES.USER_ALREADY_EXISTS);
     }
 
     // Hash password
@@ -59,7 +59,7 @@ export class UserService {
       const existingUser = await this.userRepository.findByEmail(data.email);
 
       if (existingUser && existingUser.id !== id) {
-        throw new ConflictException(ERROR_MESSAGES.USER_ALREADY_EXISTS);
+        throw new ConflictError(ERROR_MESSAGES.USER_ALREADY_EXISTS);
       }
     }
 

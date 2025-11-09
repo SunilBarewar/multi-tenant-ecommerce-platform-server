@@ -1,6 +1,6 @@
 import type { Request } from "express";
 
-import { UnauthorizedException } from "@/exceptions";
+import { UnauthorizedException } from "@/errors";
 
 /**
  * Asserts that an authenticated user exists on the request object.

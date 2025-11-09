@@ -1,19 +1,15 @@
-import { UserRepository } from "../users/user.repository";
 import {
-  LoginDTO,
-  RegisterDTO,
-  AuthResponse,
-  TokenResponse,
-} from "./auth.types";
-import { PasswordHelper } from "../../../utils/helpers/password.helper";
-import { JwtHelper } from "../../../utils/helpers/jwt.helper";
-import {
-  InvalidCredentialsException,
-  ConflictException,
-  NotFoundException,
-} from "../../../exceptions";
-import { MESSAGES } from "../../../shared/constants/messages";
-import { prisma } from "../../../core/database/client";
+  type AuthResponse,
+  type LoginDTO,
+  type RegisterDTO,
+  type TokenResponse,
+} from "@/api/auth/auth.types";
+import { UserRepository } from "@/api/users/user.repository";
+import { ConflictError, InvalidCredentialsError } from "@/errors";
+import prisma from "@/lib/prisma-client";
+import { ERROR_MESSAGES } from "@/shared/constants";
+import { PasswordHelper } from "@/utils/helpers";
+import { JwtHelper } from "@/utils/helpers/jwt.helper";
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -25,8 +21,9 @@ export class AuthService {
   async register(data: RegisterDTO): Promise<AuthResponse> {
     // Check if user already exists
     const existingUser = await this.userRepository.findByEmail(data.email);
+
     if (existingUser) {
-      throw new ConflictException(MESSAGES.USER_ALREADY_EXISTS);
+      throw new ConflictError(ERROR_MESSAGES.USER_ALREADY_EXISTS);
     }
 
     // Hash password
@@ -60,13 +57,14 @@ export class AuthService {
   async login(data: LoginDTO): Promise<AuthResponse> {
     // Find user by email
     const user = await this.userRepository.findByEmail(data.email);
+
     if (!user) {
-      throw new InvalidCredentialsException(MESSAGES.INVALID_CREDENTIALS);
+      throw new InvalidCredentialsError(ERROR_MESSAGES.INVALID_CREDENTIALS);
     }
 
     // Check if user is active
     if (!user.isActive) {
-      throw new InvalidCredentialsException("Account is inactive");
+      throw new InvalidCredentialsError("Account is inactive");
     }
 
     // Verify password
@@ -74,8 +72,9 @@ export class AuthService {
       data.password,
       user.password,
     );
+
     if (!isPasswordValid) {
-      throw new InvalidCredentialsException(MESSAGES.INVALID_CREDENTIALS);
+      throw new InvalidCredentialsError(ERROR_MESSAGES.INVALID_CREDENTIALS);
     }
 
     // Generate tokens
@@ -107,13 +106,13 @@ export class AuthService {
     });
 
     if (!storedToken) {
-      throw new InvalidCredentialsException("Invalid refresh token");
+      throw new InvalidCredentialsError("Invalid refresh token");
     }
 
     // Check if token is expired
     if (storedToken.expiresAt < new Date()) {
       await prisma.refreshToken.delete({ where: { id: storedToken.id } });
-      throw new InvalidCredentialsException("Refresh token expired");
+      throw new InvalidCredentialsError("Refresh token expired");
     }
 
     // Generate new tokens
@@ -145,6 +144,7 @@ export class AuthService {
     const payload = { userId, email, role };
     const accessToken = JwtHelper.generateAccessToken(payload);
     const refreshToken = JwtHelper.generateRefreshToken(payload);
+
     return { accessToken, refreshToken };
   }
 
@@ -153,6 +153,7 @@ export class AuthService {
     token: string,
   ): Promise<void> {
     const expiresAt = new Date();
+
     expiresAt.setDate(expiresAt.getDate() + 30); // 30 days
 
     await prisma.refreshToken.create({
