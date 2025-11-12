@@ -35,13 +35,13 @@ export class InternalServerError extends BaseError {
   }
 }
 
-export class NotFoundException extends BaseError {
+export class NotFoundError extends BaseError {
   constructor(message: string, details?: any) {
     super(message, HTTP_STATUS.NOT_FOUND, ERROR_CODES.NOT_FOUND, details);
   }
 }
 
-export class UnauthorizedException extends BaseError {
+export class UnauthorizedError extends BaseError {
   constructor(message: string, details?: any) {
     super(message, HTTP_STATUS.UNAUTHORIZED, ERROR_CODES.UNAUTHORIZED, details);
   }

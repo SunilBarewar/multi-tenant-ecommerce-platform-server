@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const LoginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
 export const RegisterSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.email("Invalid email address"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -19,3 +19,15 @@ export const RegisterSchema = z.object({
 export const RefreshTokenSchema = z.object({
   refreshToken: z.string().min(1, "Refresh token is required"),
 });
+
+export const LoginValidationSchemas = {
+  body: LoginSchema,
+};
+
+export const RegisterValidationSchemas = {
+  body: RegisterSchema,
+};
+
+export const RefreshTokenValidationSchemas = {
+  body: RefreshTokenSchema,
+};

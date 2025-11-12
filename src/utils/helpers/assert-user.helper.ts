@@ -1,6 +1,6 @@
 import type { Request } from "express";
 
-import { UnauthorizedException } from "@/errors";
+import { UnauthorizedError } from "@/errors";
 
 /**
  * Asserts that an authenticated user exists on the request object.
@@ -31,7 +31,7 @@ export function assertUser<
   R extends Request<any, any, any, any, any> & { user?: unknown },
 >(req: R): asserts req is R & { user: NonNullable<R["user"]> } {
   if (!req.user) {
-    throw new UnauthorizedException("User not found", {
+    throw new UnauthorizedError("User not found", {
       info: "req.user is undefined",
     });
   }

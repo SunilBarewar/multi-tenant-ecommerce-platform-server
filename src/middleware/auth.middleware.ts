@@ -1,6 +1,6 @@
 import type { UnvalidatedRequestHandler } from "@/shared/types";
 
-import { UnauthorizedException } from "@/errors";
+import { UnauthorizedError } from "@/errors";
 import { JwtHelper } from "@/utils/helpers/jwt.helper";
 
 export const authMiddleware: UnvalidatedRequestHandler = (req, _res, next) => {
@@ -8,7 +8,7 @@ export const authMiddleware: UnvalidatedRequestHandler = (req, _res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader?.startsWith("Bearer ")) {
-      throw new UnauthorizedException("No token provided");
+      throw new UnauthorizedError("No token provided");
     }
 
     const token = authHeader.substring(7);

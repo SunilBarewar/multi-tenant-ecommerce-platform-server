@@ -1,5 +1,7 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
 
+import type { AuthTokens } from "@/modules/auth/auth.types";
+
 import { env } from "@/config/env";
 import { InvalidTokenError, TokenExpiredError } from "@/errors";
 
@@ -51,5 +53,12 @@ export class JwtHelper {
       }
       throw new InvalidTokenError();
     }
+  }
+
+  static generateTokenPair(payload: JwtPayload): AuthTokens {
+    return {
+      accessToken: this.generateAccessToken(payload),
+      refreshToken: this.generateRefreshToken(payload),
+    };
   }
 }

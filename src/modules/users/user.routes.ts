@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { validate } from "zod-express-validator";
 
-import { UserController } from "@/api/users/user.controller";
+import { UserController } from "@/modules/users/user.controller";
 import {
   CreateUserValidationSchemas,
   DeleteUserValidationSchemas,
   GetAllUsersValidationSchemas,
   GetUserByValidationSchemas,
   UpdateUserValidationSchemas,
-} from "@/api/users/user.schema";
-import { UserService } from "@/api/users/user.service";
+} from "@/modules/users/user.schema";
+import { UserService } from "@/modules/users/user.service";
 import { authMiddleware } from "@/middleware";
 
 export function createUserRoutes(): Router {
