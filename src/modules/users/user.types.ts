@@ -4,7 +4,7 @@ import type {
   CreateUserBodySchema,
   UpdateUserSchema,
   UserQuerySchema,
-} from "@/api/users/user.schema";
+} from "@/modules/users/user.schema";
 import type { User as PrismaUser } from "@/generated/prisma";
 
 export type CreateUserDTO = z.infer<typeof CreateUserBodySchema>;

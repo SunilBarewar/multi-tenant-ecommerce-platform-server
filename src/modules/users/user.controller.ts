@@ -4,8 +4,8 @@ import type {
   GetAllUsersValidationSchemas,
   GetUserByValidationSchemas,
   UpdateUserValidationSchemas,
-} from "@/api/users/user.schema";
-import type { UserService } from "@/api/users/user.service";
+} from "@/modules/users/user.schema";
+import type { UserService } from "@/modules/users/user.service";
 import type { TypedController } from "@/shared/types/request.types";
 
 import { HTTP_STATUS, SUCCESS_MESSAGES } from "@/shared/constants";

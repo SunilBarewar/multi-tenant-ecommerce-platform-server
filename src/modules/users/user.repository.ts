@@ -3,11 +3,11 @@ import type {
   UpdateUserDTO,
   User,
   UserQueryParams,
-} from "@/api/users/user.types";
+} from "@/modules/users/user.types";
 
 import { BaseRepository } from "@/utils/db/base.repository";
 
-export class UserRepository extends BaseRepository<User> {
+export class UserRepository extends BaseRepository {
   async findById(id: string): Promise<null | User> {
     return this.prisma.user.findUnique({
       where: { id },

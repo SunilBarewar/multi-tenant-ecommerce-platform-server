@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 export class PasswordHelper {
   private static readonly SALT_ROUNDS = 10;
@@ -9,6 +10,23 @@ export class PasswordHelper {
 
   static async hash(password: string): Promise<string> {
     return bcrypt.hash(password, this.SALT_ROUNDS);
+  }
+
+  static generateOtp(length: number = 6): string {
+    const digits = "0123456789";
+    let otp = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = crypto.randomInt(0, digits.length);
+
+      otp += digits[randomIndex];
+    }
+
+    return otp;
+  }
+
+  static generateSecureToken(length: number = 32): string {
+    return crypto.randomBytes(length).toString("hex");
   }
 
   static validate(password: string): { valid: boolean; errors: string[] } {

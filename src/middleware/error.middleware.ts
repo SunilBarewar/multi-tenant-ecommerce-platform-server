@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { NextFunction, Request, Response } from "express";
 
-import { BaseException } from "@/exceptions";
+import { BaseError } from "@/errors";
 import { logger } from "@/lib/logger";
 import { ERROR_CODES } from "@/shared/constants/error-codes.const";
 import { HTTP_STATUS } from "@/shared/constants/http-status.const";
@@ -15,7 +15,7 @@ export function errorMiddleware(
 ) {
   logger.error(`Error: ${error.message}`, { stack: error.stack });
 
-  if (error instanceof BaseException) {
+  if (error instanceof BaseError) {
     return ResponseFormatter.error(res, {
       message: error.message,
       code: error.code,

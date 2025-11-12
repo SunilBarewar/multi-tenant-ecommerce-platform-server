@@ -1,11 +1,11 @@
-import { UserRepository } from "@/api/users/user.repository";
+import { UserRepository } from "@/modules/users/user.repository";
 import {
   type CreateUserDTO,
   type UpdateUserDTO,
   type UserQueryParams,
   type UserWithoutPassword,
-} from "@/api/users/user.types";
-import { ConflictException, NotFoundException } from "@/exceptions";
+} from "@/modules/users/user.types";
+import { ConflictError, NotFoundError } from "@/errors";
 import { ERROR_MESSAGES } from "@/shared/constants";
 
 export class UserService {
@@ -20,7 +20,7 @@ export class UserService {
     const existingUser = await this.userRepository.findByEmail(data.email);
 
     if (existingUser) {
-      throw new ConflictException(ERROR_MESSAGES.USER_ALREADY_EXISTS);
+      throw new ConflictError(ERROR_MESSAGES.USER_ALREADY_EXISTS);
     }
 
     // Hash password
@@ -37,7 +37,7 @@ export class UserService {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new NotFoundException(ERROR_MESSAGES.USER_NOT_FOUND);
+      throw new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND);
     }
 
     return user;
@@ -51,7 +51,7 @@ export class UserService {
     const exists = await this.userRepository.exists(id);
 
     if (!exists) {
-      throw new NotFoundException(ERROR_MESSAGES.USER_NOT_FOUND);
+      throw new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND);
     }
 
     // If email is being updated, check if it's already taken
@@ -59,7 +59,7 @@ export class UserService {
       const existingUser = await this.userRepository.findByEmail(data.email);
 
       if (existingUser && existingUser.id !== id) {
-        throw new ConflictException(ERROR_MESSAGES.USER_ALREADY_EXISTS);
+        throw new ConflictError(ERROR_MESSAGES.USER_ALREADY_EXISTS);
       }
     }
 
@@ -70,7 +70,7 @@ export class UserService {
     const exists = await this.userRepository.exists(id);
 
     if (!exists) {
-      throw new NotFoundException(ERROR_MESSAGES.USER_NOT_FOUND);
+      throw new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND);
     }
 
     await this.userRepository.delete(id);

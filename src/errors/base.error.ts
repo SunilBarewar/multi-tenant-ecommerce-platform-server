@@ -1,4 +1,4 @@
-export class BaseException extends Error {
+export class BaseError extends Error {
   public readonly code: string;
 
   public readonly details?: any;
